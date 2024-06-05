@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    font-family:'Courier New', Courier, monospace;
+}
+.nav-row li {
+    list-style: none;
+    border-bottom: solid 1px transparent;
+}
+#listList, #todoList {
+min-height: 300px;
+}
+/* .nav-row li:hover {
+    border-bottom: solid 1px;
+} */

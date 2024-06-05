@@ -1,0 +1,43 @@
+{
+  "todos": [
+    {
+      "name": "nuovo todos",
+      "create_at": "28/05/2024",
+      "user_id": 1,
+      "list_id": null,
+      "completed": true,
+      "id": "4e68"
+    },
+    {
+      "name": "g",
+      "create_at": "29/05/2024",
+      "user_id": 1,
+      "list_id": null,
+      "completed": true,
+      "id": "b360"
+    },
+    {
+      "name": "hhhhh",
+      "create_at": "29/05/2024",
+      "user_id": 1,
+      "list_id": null,
+      "completed": true,
+      "id": "1079"
+    }
+  ],
+  "filter": [
+    "ALL"
+  ],
+  "lists": [
+    {
+      "id": null,
+      "name": "prova lista ",
+      "user_id": 1
+    },
+    {
+      "id": null,
+      "name": "fare cose",
+      "user_id": 1
+    }
+  ]
+}
