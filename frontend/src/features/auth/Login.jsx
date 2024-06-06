@@ -3,6 +3,7 @@ import { useLoginMutation } from '../../service/authService';
 import { useDispatch } from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import { userLoggedin } from './userSlice';
+
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,6 +13,9 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        if (email.length < 6) {
+            alert('Email length has to be 6 chars');
+        }
 
         try {
              await login({ email, password }).unwrap();
@@ -30,12 +34,15 @@ const Login = () => {
         }
     }, [dispatch,navigate, data])
 
+
+
   return (
     <>
     <div className="container">
         <div className="row justify-content-center mt-5">
             <div className="col-12 col-md-6">
                 <h2 className='text-center mb-5'>Accedi</h2>
+                        {error && <h2 className='alert alert-danger'>{error.data.error}</h2>}
                 <form onSubmit={handleLogin}>
                     <div className="mb-3">
                         <label htmlFor="email" className="form-label">Email</label>
@@ -45,7 +52,7 @@ const Login = () => {
                             id="email"
                             name='email'
                             onChange={(e) => setEmail(e.target.value)}
-                        />
+                            />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="password" className="form-label">Password</label>

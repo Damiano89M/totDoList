@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const NavBar = () => {
-  const user = useSelector(state => state.user);
+  const user = useSelector(state => state.auth.user);
 
   return (
     <>

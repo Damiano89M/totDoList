@@ -5,19 +5,23 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_URL + '/auth' }),
 
-  prepareHeaders: (headers) => {
+/*   prepareHeaders: (headers) => {
     const token = localStorage.getItem('token');
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }
     return headers;
-  },
+  }, */
   endpoints: (builder) => ({
     register: builder.mutation({
-      query: (user) => ({
+      query: (body) => ({
         url: '/register',
         method: 'POST',
-        body: user,
+        body,
+        headers: {
+          // Accept: 'application/json' è una buona pratica che garantisce che le risposte del server siano in un formato prevedibile e facile da gestire, migliorando la robustezza e la manutenibilità del codice del client.
+          Accept: 'application/json',
+        }
       }),
     }),
     login: builder.mutation({
@@ -25,6 +29,10 @@ export const authApi = createApi({
         url: 'login',
         method: 'POST',
         body,
+        headers: {
+          // Accept: 'application/json' è una buona pratica che garantisce che le risposte del server siano in un formato prevedibile e facile da gestire, migliorando la robustezza e la manutenibilità del codice del client.
+          Accept: 'application/json',
+        }
       }),
     }),
  

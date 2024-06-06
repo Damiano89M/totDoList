@@ -2,7 +2,8 @@ import { useRegisterMutation } from '../../service/authService';
 import { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { userLoggedin } from './userSlice';
+import { userRegister } from './userSlice';
+import FieldError from '../../components/FieldError';
 const Register = () => {
     //const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -22,16 +23,20 @@ const Register = () => {
         } catch (error) {
             console.log(error);
         }
-        navigate('/')
     }
     useEffect(() => {
         
-        if (data) {
-            localStorage.setItem('todolist-data', JSON.stringify(data));
-            dispatch(userLoggedin(data));
+        if (data && data.access_token) {
+            
+            dispatch(userRegister(data));
+            navigate('/')
         }
-    },[dispatch, data])
+    },[dispatch, navigate, data])
     
+    const nameErrors = error?.data.errors?.name ?? [];
+    const emailErrors = error?.data.errors?.email ?? [];
+    const passwordErrors = error?.data.errors?.password ?? [];
+
     return (
         <>
             <div className="container">
@@ -49,6 +54,7 @@ const Register = () => {
                                     onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
+                            <FieldError errors = {nameErrors} />
                             <div className="mb-3">
                                 <label htmlFor="email" className="form-label">Email</label>
                                 <input
@@ -59,6 +65,7 @@ const Register = () => {
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
+                            <FieldError errors = {emailErrors} />
                             <div className="mb-3">
                                 <label htmlFor="password" className="form-label">Password</label>
                                 <input
@@ -79,6 +86,7 @@ const Register = () => {
                                     onChange={(e) => setPassword_confirmation(e.target.value)}
                                 />
                             </div>
+                            <FieldError errors = {passwordErrors} />
                             <div className="mb-3 form-check">
                                 <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                                 <label className="form-check-label" for="exampleCheck1">Check me out</label>

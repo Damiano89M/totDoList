@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -46,26 +47,21 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request) {
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
             'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
-            'password_confirmation' => 'required|string|min:6',
         ]);
 
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
+        $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create(array_merge(
-            $validator->validated(),
-            ['password' => bcrypt($request->password)]
+            $validated
         ));
 
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $user
-        ], 201);
+        $token = auth()->login($user);
+
+        return $this->createNewToken($token);
     }
 
 

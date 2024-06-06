@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-let initialState = null;
+let initialState = {
+    user: null
+};
 //recupera i dati dell'utente dal localStorage
 const todoData = localStorage.getItem('todolist-data');
 if (todoData) {
@@ -24,28 +26,39 @@ if (todoData) {
         }
     }
 }
-const userSlice = createSlice({
-    name: 'user',
+export const userSlice = createSlice({
+    name: 'auth',
     initialState,
     reducers: {
-        userLoggedin(state, action) {
+        //uso di draft = Puoi modificare draft direttamente, e Immer si occupa di restituire una nuova versione dello stato senza mutare l'originale.
+        userLoggedin(draft, action) {
             const data = action.payload;
             if (data && data.name) {
                 //salva i dati dell'utente nel localStorage del browser. JSON.stringify è un metodo che converte un oggetto JavaScript in una stringa JSON.
                 localStorage.setItem('todolist-data', JSON.stringify(data));
-                return { name: data.name, email: data.email }
+                draft.user = {name: data.name, email: data.email }
             } else {
-                return state;
+                draft.user = null;
             }
-
         },
-        logoutUser(state, action) {
+        //uso di state = Quando aggiorni state, devi sempre restituire un nuovo oggetto che rappresenta il nuovo stato. Non puoi modificare state direttamente.
+        userRegister(state, action) {
+            const data = action.payload;
+            if (data && data.name) {
+                //salva i dati dell'utente nel localStorage del browser. JSON.stringify è un metodo che converte un oggetto JavaScript in una stringa JSON.
+                localStorage.setItem('todolist-data', JSON.stringify(data));
+                state.user = { name: data.name, email: data.email };
+            } else {
+                return null;
+            }
+        },
+        logoutUser(draft) {
             localStorage.removeItem('todolist-data');
            
-            return null;
+            draft.user = null;
         }
     }
 })
 
-export const { userLoggedin, logoutUser } = userSlice.actions;
+export const { userLoggedin, logoutUser, userRegister } = userSlice.actions;
 export default userSlice.reducer;
