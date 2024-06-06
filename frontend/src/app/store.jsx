@@ -5,10 +5,11 @@ import {listsApi} from '../service/listService';
 import {todosApi} from '../service/todoService';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { authApi } from '../service/authService';
-
+import userReducer from '../features/auth/userSlice';
 const store = configureStore ({
     reducer: {
         //todos: todosReducer,
+        user: userReducer,
         filter: filterReducer,
         [listsApi.reducerPath]: listsApi.reducer,
         [todosApi.reducerPath]: todosApi.reducer,
