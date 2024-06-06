@@ -83,7 +83,7 @@ const Register = () => {
                                 <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                                 <label className="form-check-label" for="exampleCheck1">Check me out</label>
                             </div>
-                            <button type="submit" className="btn btn-primary">Registrati</button>
+                            <button disabled={password !== password_confirmation} type="submit" className="btn btn-primary">Registrati</button>
                         </form>
                     </div>
                 </div>
