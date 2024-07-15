@@ -7,6 +7,14 @@ export const listsApi = createApi({
     tagTypes: ['LISTS'],
     baseQuery: fetchBaseQuery({
         baseUrl: LIST_URL,
+        prepareHeaders: (headers, {getState}) => {
+            const token = getState().auth.token;
+            headers.set('Accept', 'application/json');
+            if (token) {
+              headers.set('Authorization', `Bearer ${token}`);
+            }
+            return headers;
+          },
     }),
     endpoints: builder => (
         {

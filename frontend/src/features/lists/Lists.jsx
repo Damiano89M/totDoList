@@ -2,7 +2,7 @@ import List from "./List";
 import { toast, ToastContainer } from "react-toastify";
 import { useEffect, useRef } from "react";
 import { useGetListsQuery, useDeleteListMutation, } from "../../service/listService";
-
+import FieldError from '../../components/FieldError';
 const Lists = () => {
     const { 
         data: {data: lists = []} = {}, 
@@ -13,9 +13,16 @@ const Lists = () => {
     } = useGetListsQuery()
     const [removeList, { isLoading: loading, isSuccess, error: deleteError, isError }] = useDeleteListMutation();
    
+    const errorValue = typeof error === 'string' ? error : error?.data?.message;
+    const errorMessage = errorValue ? [errorValue] : [];
     useEffect(() => {
         if (error) {
-            toast.error(error)
+            if(typeof error === 'string') {
+
+                toast.error(error)
+            } else {
+                toast.error(error?.data?.message);
+            }
         }
         if (isFetching) {
             toast.info('Loading')
@@ -24,7 +31,7 @@ const Lists = () => {
             toast.dismiss()
         }
 
-    }, [error, isFetching])
+    }, [error, isFetching]);
 
     const handleDelete = async (id) => {
         //si possono usare entrambi i metodi ma con il try catch è meglio
@@ -45,12 +52,10 @@ const Lists = () => {
 
     return (
         <>
-            <div className="">
-
-            </div>
+            <FieldError errors={errorMessage}/>
             <ul className="list-group list-group-flush" id='listList'>
                 { lists && lists.length > 0 ? (
-                    lists.map(list => (
+                    lists.map((list) => (
                         <List
                             key={list.id}
                             list={list}

@@ -27,7 +27,7 @@ const router = createBrowserRouter(
       <Route path='/logout' element={<PrivateRoute><Logout /></PrivateRoute>} />
       <Route path='/lists/:list_id/edit' element={<PrivateRoute><ListEdit /></PrivateRoute>} />
       <Route path='/lists/:list_id/todos' element={<PrivateRoute><MyTodos /></PrivateRoute>} />
-      <Route index element={<HomePage />} />
+      <Route index element={<PrivateRoute><HomePage /></PrivateRoute>} />
     </Route>
   )
 )

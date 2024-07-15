@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 let initialState = {
-    user: null
+    user: null, 
+    token: null,
 };
 //recupera i dati dell'utente dal localStorage
 const todoData = localStorage.getItem('todolist-data');
@@ -20,8 +21,11 @@ if (todoData) {
             localStorage.removeItem('todolist-data');
         } else {
             initialState = {
-                name: data.name,
-                email: data.email
+                token: data.access_token,
+                user: {
+                    name: data.name,
+                    email: data.email
+                }
             }
         }
     }
@@ -36,7 +40,8 @@ export const userSlice = createSlice({
             if (data && data.name) {
                 //salva i dati dell'utente nel localStorage del browser. JSON.stringify è un metodo che converte un oggetto JavaScript in una stringa JSON.
                 localStorage.setItem('todolist-data', JSON.stringify(data));
-                draft.user = {name: data.name, email: data.email }
+                draft.user = {name: data.name, email: data.email };
+                draft.token = data.access_token;
             } else {
                 draft.user = null;
             }
@@ -48,6 +53,7 @@ export const userSlice = createSlice({
                 //salva i dati dell'utente nel localStorage del browser. JSON.stringify è un metodo che converte un oggetto JavaScript in una stringa JSON.
                 localStorage.setItem('todolist-data', JSON.stringify(data));
                 state.user = { name: data.name, email: data.email };
+                draft.token = data.access_token;
             } else {
                 return null;
             }

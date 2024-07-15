@@ -5,8 +5,9 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_URL + '/auth' }),
 
-/*   prepareHeaders: (headers) => {
-    const token = localStorage.getItem('token');
+/*   prepareHeaders: (headers, {getState}) => {
+    const token = getState().auth.token;
+    headers.set('Accept', 'application/json');
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }

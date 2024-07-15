@@ -23,19 +23,21 @@ const NavBar = () => {
               </NavLink>
             </li>
           }
-
-          <li className="col-2 nav-link">
-            <NavLink
-              className='nav-link'
-              style={({ isActive }) => {
-                return {
-                  borderBottom: isActive ? "solid 1px" : "inherit",
-                };
-              }}
-              to='/'>
-              Todo
-            </NavLink>
-          </li>
+          {
+            user &&
+            <li className="col-2 nav-link">
+              <NavLink
+                className='nav-link'
+                style={({ isActive }) => {
+                  return {
+                    borderBottom: isActive ? "solid 1px" : "inherit",
+                  };
+                }}
+                to='/'>
+                Todo
+              </NavLink>
+            </li>
+          }
 
           {
             !user &&
@@ -71,15 +73,15 @@ const NavBar = () => {
           {
             user &&
             <>
-            <li className='col-2'> {user.name}</li>
-            <li className='col-2 '>
-              <NavLink
-                to='/logout'
-                className='nav-link'
-              >
-                Logout
-              </NavLink>
-            </li>
+              <li className='col-2'> {user.name}</li>
+              <li className='col-2 '>
+                <NavLink
+                  to='/logout'
+                  className='nav-link'
+                >
+                  Logout
+                </NavLink>
+              </li>
             </>
           }
 

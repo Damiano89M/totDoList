@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { TODO_URL } from '../confing'
+import { TODO_URL } from '../confing';
+
 // Define a service using a base URL and expected endpoints
 export const todosApi = createApi({
     reducerPath: 'todos',
@@ -7,6 +8,14 @@ export const todosApi = createApi({
     tagTypes: ['TODOS'], 
     baseQuery: fetchBaseQuery({
         baseUrl: TODO_URL,
+        prepareHeaders: (headers, {getState}) => {
+            const token = getState().auth.token;;
+           headers.set('Accept', 'application/json');
+            if (token) {
+              headers.set('Authorization', `Bearer ${token}`);
+            }
+            return headers;
+          },
     }),
     endpoints: builder => (
         {
